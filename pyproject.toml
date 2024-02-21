@@ -1,0 +1,13 @@
+[project]
+name = "comp0034-coursework2"
+version = "1.0"
+
+# https://setuptools.pypa.io/en/latest/userguide/pyproject_config.html
+[build-system]
+requires = ["setuptools", "setuptools-scm"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+#where = ["src"]  # list of folders that contain the packages (["."] by default)
+#include = ["paralympics_dash", "paralympics_flask"]
+namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
