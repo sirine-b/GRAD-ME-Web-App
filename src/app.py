@@ -1,5 +1,30 @@
 from dash import Dash, html
 import dash_bootstrap_components as dbc
+import dash
+import pandas as pd
+import sqlite3
+import json
+
+# Establish connection with sqlite database
+sqliteConnection = sqlite3.connect('database.sqlite')
+cursor = sqliteConnection.cursor()
+
+#Select column with course names from course table in database.sqlite
+query = 'SELECT COURSE FROM course;'
+cursor.execute(query)
+result = cursor.fetchall()
+# Convert selected course names into json format
+result_json=json.dumps(result)
+# Convert json format into pandas object (df)
+res=pd.read_json(result_json)
+# Remove course name duplicates (in the table they are not really dups bc although it's the same course_name, they have different study modes)
+res=res.drop_duplicates()
+
+# Append a list opt with course names in the format expected by the dropdown options
+opt=[]
+for row in range(len(res)):
+    course_name=res.iloc[row,0]
+    opt.append({'label': course_name, 'value': course_name})
 
 
 # Variable that contains the external_stylesheet to use (ie.Flatly styling from dash bootstrap components (dbc))
@@ -40,17 +65,12 @@ row_one = html.Div(
 row_two = html.Div(
     dbc.Row([
         dbc.Col(children=[dbc.Label("Select your course"), 
-                          dbc.Select(id="type-dropdown",
+                          dbc.Select(id="dropdown_1",
                                      # id uniquely identifies the element, will be needed later
-                                     options=[
-                                         {"label": "COURSE 1", "value": "course"},
-                                         # The value is in the format of the column heading in the data
-                                         {"label": "COURSE 2", "value": "course"},
-                                         {"label": "COURSE 3", "value": "course"},
-                                         {"label": "COURSE 4", "value": "course"},
-                                     ],
-                                     value="COURSE 1",  # The default selection,
+                                     #value="COURSE 1",  # The default selection,
                                      #id="course_name_selector"
+                                     options=opt,
+                                     value='design studies'
                                      ),
                           ], width=4),
         dbc.Col(children=[dbc.Label("Select your study mode"), 
@@ -73,52 +93,22 @@ row_two = html.Div(
                     width=4)
     ]),
 )
-row_three = html.Div(
-    dbc.Row([
-        dbc.Col(children=[
-            html.Img(src=app.get_asset_url('map-placeholder.png'), className="img-fluid"),
-        ], width=8),
-        dbc.Col(children=[
-            dbc.Card(
-                [
-                    dbc.CardImg(src=app.get_asset_url('logos/2022_Beijing.jpg'), top=True, style={"width": "200px"}),
-                    dbc.CardBody(
-                        [
-                            html.H4("TownName 2026", className="card-title"),
-                            html.P(
-                                "Highlights of the paralympic event will go here. This will be a sentence or two.",
-                                className="card-text",
-                            ),
-                            html.P(
-                                "Number of athletes: XX",
-                                className="card-text",
-                            ),
-                            html.P(
-                                "Number of events: XX",
-                                className="card-text",
-                            ),
-                            html.P(
-                                "Number of countries: XX",
-                                className="card-text",
-                            ),
-                        ]
-                    ),
-                ],
-                style={"width": "18rem"},
-            )
-
-        ], width=4),
-    ], align="start")
-)
 
 # Add an HTML layout to the Dash app.
 # The layout is wrapped in a DBC Container()
 app.layout = dbc.Container([
     row_one,
-    row_two,
-    row_three
+    row_two
 ])
 
+
+#  [{"label": x, "value": x} for x in options]
+# #Populate the dropdown menu with course names present in dff_json 
+# @app.callback(
+#     dash.dependencies.Output('dropdown_1', 'options'),
+#     [dash.dependencies.Input('table-store', 'children')])
+# def update_dropdown(opt):
+#     return [{"label": x, "value": x} for x in opt]
 # Run the Dash app
 if __name__ == '__main__':
     app.run(debug=True)
