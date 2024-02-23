@@ -16,14 +16,14 @@ result = cursor.fetchall()
 # Convert selected course names into json format
 result_json=json.dumps(result)
 # Convert json format into pandas object (df)
-res=pd.read_json(result_json)
+result_pd=pd.read_json(result_json)
 # Remove course name duplicates (in the table they are not really dups bc although it's the same course_name, they have different study modes)
-res=res.drop_duplicates()
+result_pd=result_pd.drop_duplicates()
 
 # Append a list opt with course names in the format expected by the dropdown options
 opt=[]
-for row in range(len(res)):
-    course_name=res.iloc[row,0]
+for row in range(len(result_pd)):
+    course_name=result_pd.iloc[row,0]
     opt.append({'label': course_name, 'value': course_name})
 
 
@@ -102,13 +102,6 @@ app.layout = dbc.Container([
 ])
 
 
-#  [{"label": x, "value": x} for x in options]
-# #Populate the dropdown menu with course names present in dff_json 
-# @app.callback(
-#     dash.dependencies.Output('dropdown_1', 'options'),
-#     [dash.dependencies.Input('table-store', 'children')])
-# def update_dropdown(opt):
-#     return [{"label": x, "value": x} for x in opt]
 # Run the Dash app
 if __name__ == '__main__':
     app.run(debug=True)
