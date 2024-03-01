@@ -94,11 +94,29 @@ row_two = html.Div(
     ]),
 )
 
+row_three = html.Div(
+    dbc.Row([
+        dbc.Col(children='hey'),
+        dbc.Col(children=[dbc.Label("Select the countries you would like to work in"), 
+                         dbc.Checklist(
+                        options=[
+                            {'label': 'United Kingdom', 'value': 'UK'},
+                            {'label': 'England', 'value': 'England'},
+                            {'label': 'Scotland', 'value': 'Scotland'},
+                            {'label': 'Wales', 'value': 'Wales'},
+                            {'label': 'Northern Ireland', 'value': 'NI'}
+                        ],
+                        value=['UK']
+    )]),
+    ])
+    )
+
 # Add an HTML layout to the Dash app.
 # The layout is wrapped in a DBC Container()
 app.layout = dbc.Container([
     row_one,
-    row_two
+    row_two,
+    row_three
 ])
 
 

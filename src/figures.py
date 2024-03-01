@@ -40,10 +40,8 @@ def generate_pie_chart(course_name, kis_mode):
     legend=dict(y=0.5),
     title=dict(x=0.5))
     fig.show()
-generate_pie_chart('design studies', 2)
+#generate_pie_chart('design studies', 2)
 
-# Def margin between title and chart
-mrg = dict(b = 100)
 def generate_satisfaction_indicators(course_name, kis_mode):
     # Find course index (ie. FK) corresponding to the user-selected course name and kis_mode
     query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
@@ -52,7 +50,6 @@ def generate_satisfaction_indicators(course_name, kis_mode):
     result_json=json.dumps(result)
     result_df=pd.read_json(result_json)
     course_index=result_df[0][0]
-
 
     # Select satisfaction data (from satisfaction sqlite table) associated to the 
     # given course index (i.e. to the user-selected course name and study mode)
@@ -97,8 +94,103 @@ def generate_satisfaction_indicators(course_name, kis_mode):
                 },
     title = {'text':'HOW DO GRADUATES FROM YOUR COURSE FEEL?',
              'x':0.5,
-             'font':dict(size=25)},
-    margin=mrg)
+             'font':dict(size=25)})
     fig.show()
-generate_bar_chart('design studies',1)
+#generate_satisfaction_indicators('design studies',1)
 
+def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
+
+    # Find course index (ie. FK) corresponding to the user-selected course name, and kis_mode 
+    query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
+    cursor.execute(query)
+    result = cursor.fetchall()[0]
+    result_json=json.dumps(result)
+    result_df=pd.read_json(result_json)
+    course_index=result_df[0][0]
+
+    # Select salary data (from satisfaction sqlite table) associated to the 
+    # given course index (i.e. to the user-selected course name and study mode)and kis_level
+    country2cols={
+        "UK":"GOSECLQ_UK,GOSECMED_UK,GOSECUQ_UK",
+        "England":"GOSECLQ_E, GOSECMED_E, GOSECUQ_E",
+        "Scotland":"GOSECLQ_S, GOSECMED_S, GOSECUQ_S",
+        "Wales":"GOSECLQ_W, GOSECMED_W, GOSECUQ_W",
+        "NI":"GOSECLQ_NI, GOSECMED_NI, GOSECUQ_NI",
+    }
+    #columns from database to select depending on user-enterred countries
+    salary_cols=[]
+    cnt=0
+    for country in countries:
+        if country in country2cols:
+            salary_cols.append(country2cols[country])
+            cnt+=1
+        if cnt!=0 and cnt!=len(countries):
+            salary_cols.append(',')
+    
+    #remove brackets 
+    salary_cols=' '.join(salary_cols)
+    
+    query="SELECT {} FROM salary WHERE COURSE_INDEX='{}' and KISLEVEL='{}' ;".format(salary_cols, course_index,kis_level)
+    cursor.execute(query)
+    result = cursor.fetchall()[0]
+    result_json=json.dumps(result)
+    result_df=pd.read_json(result_json)
+    
+    #add a column to the dataframe with the countries names
+    result_df['Country']=''
+    start_idx=0
+    for cnt in range(len(countries)):
+        end_idx=start_idx+2
+        result_df.loc[start_idx:end_idx,'Country']=countries[cnt]
+        start_idx+=3
+
+    #add a column to the dataframe with the salary type (lower quartile, median or upper quartile)
+    result_df['Type']=''
+    row=0
+    for cnt in range(len(countries)):
+        result_df.loc[row,'Type']='Lower Quartile'
+        result_df.loc[row+1,'Type']='Median'
+        result_df.loc[row+2,'Type']='Upper Quartile'
+        row+=3
+
+    # reformat the results dataframe so that it can be easily plotted (compatible with) using go.Bar
+    reformatted_res_df=pd.DataFrame(columns=['Country', 'Lower Quartile', 'Median', 'Upper Quartile'])
+    row_new_df=0
+    for row_old_df in range(len(result_df)):
+        reformatted_res_df.loc[row_new_df,'Country']=result_df.loc[row_old_df,'Country']
+        if result_df.loc[row_old_df,'Type']=='Lower Quartile':
+            reformatted_res_df.loc[row_new_df,'Lower Quartile']=result_df.loc[row_old_df,0]
+
+        elif result_df.loc[row_old_df,'Type']=='Median':
+            reformatted_res_df.loc[row_new_df,'Median']=result_df.loc[row_old_df,0]
+
+        elif result_df.loc[row_old_df,'Type']=='Upper Quartile':
+            reformatted_res_df.loc[row_new_df,'Upper Quartile']=result_df.loc[row_old_df,0]
+        
+        if row_old_df==2 or row_old_df==5 or row_old_df==8 or row_old_df==11:
+            row_new_df+=1
+
+    labels = countries
+    fig = go.Figure()
+    fig.add_trace(go.Bar(
+        x=labels,
+        y=reformatted_res_df['Lower Quartile'],
+        name='Lower Quartile',
+        marker_color='indianred'
+    ))
+    fig.add_trace(go.Bar(
+        x=countries,
+        y=reformatted_res_df['Median'],
+        name='Median',
+        marker_color='lightsalmon'
+    ))
+    fig.add_trace(go.Bar(
+    x=countries,
+    y=reformatted_res_df['Upper Quartile'],
+    name='Upper Quartile',
+    marker_color='green'
+    ))
+    # Here we modify the tickangle of the xaxis, resulting in rotated labels.
+    fig.update_layout(barmode='group', xaxis_tickangle=-45)
+    fig.show()
+generate_bar_chart('design studies', 1, 3, countries=['UK','Wales', 'NI','Scotland', 'England'])
