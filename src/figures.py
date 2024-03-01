@@ -34,13 +34,13 @@ def generate_pie_chart(course_name, kis_mode):
                  title='WHAT ARE GRADUATES FROM YOUR COURSE DOING?')
     #format figure's layout
     fig.update_layout(
-    #title_font_family="Times New Roman",
-    title_font_size=25,
-    title_font_color="black",
+    title_font_family="Fantasy",
+    title_font_size=30,
+    #title_font_color="black",
     legend=dict(y=0.5),
     title=dict(x=0.5))
     fig.show()
-#generate_pie_chart('design studies', 2)
+generate_pie_chart('design studies', 2)
 
 def generate_satisfaction_indicators(course_name, kis_mode):
     # Find course index (ie. FK) corresponding to the user-selected course name and kis_mode
@@ -94,9 +94,11 @@ def generate_satisfaction_indicators(course_name, kis_mode):
                 },
     title = {'text':'HOW DO GRADUATES FROM YOUR COURSE FEEL?',
              'x':0.5,
-             'font':dict(size=25)})
+             'font':dict(size=30),
+             'font_family': 'Fantasy',
+             'x':0.5})
     fig.show()
-#generate_satisfaction_indicators('design studies',1)
+generate_satisfaction_indicators('design studies',1)
 
 def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
 
@@ -176,21 +178,26 @@ def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
         x=labels,
         y=reformatted_res_df['Lower Quartile'],
         name='Lower Quartile',
-        marker_color='indianred'
+        marker_color=px.colors.sequential.Burgyl[0]
     ))
     fig.add_trace(go.Bar(
         x=countries,
         y=reformatted_res_df['Median'],
         name='Median',
-        marker_color='lightsalmon'
+        marker_color=px.colors.sequential.Burgyl[2]
     ))
     fig.add_trace(go.Bar(
     x=countries,
     y=reformatted_res_df['Upper Quartile'],
     name='Upper Quartile',
-    marker_color='green'
+    marker_color=px.colors.sequential.Burgyl[4]
     ))
+
     # Here we modify the tickangle of the xaxis, resulting in rotated labels.
-    fig.update_layout(barmode='group', xaxis_tickangle=-45)
+    fig.update_layout(title=dict(text='HOW MUCH ARE GRADUATES FROM YOUR COURSE PAID?',x=0.5), 
+                      title_font_family="Fantasy",
+                      title_font_size=30,barmode='group', 
+                      xaxis_tickangle=-45,
+                      legend_font_size=15)
     fig.show()
 generate_bar_chart('design studies', 1, 3, countries=['UK','Wales', 'NI','Scotland', 'England'])
