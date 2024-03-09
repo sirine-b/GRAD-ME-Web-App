@@ -5,29 +5,38 @@ import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
 from plotly.subplots import make_subplots
+from threading import Lock
 
 # Establish connection with sqlite database
-sqliteConnection = sqlite3.connect('database.sqlite')
+sqliteConnection = sqlite3.connect('database.sqlite',check_same_thread=False)
 cursor = sqliteConnection.cursor()
 
-def generate_pie_chart(course_name, kis_mode):
+lock=Lock()
 
+def find_course_index(course_name, kis_mode):
     # Find course index (ie. FK) corresponding to the user-selected course name and kis_mode
     query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
+    lock.acquire()
     cursor.execute(query)
     result = cursor.fetchall()[0]
     result_json=json.dumps(result)
     result_pd=pd.read_json(result_json)
     course_index=result_pd[0][0]
+    lock.release()
+
+    return course_index
+
+def generate_pie_chart(course_index):
 
     # Select employment data (from employment sqlite table) associated to the 
     # given course index (i.e. to the user-selected course name and study mode)
     query="SELECT STUDY,UNEMP,PREVWORKSTUD,BOTH,NOAVAIL,WORK FROM employment WHERE COURSE_INDEX='{}';".format(course_index)
+    lock.acquire()
     cursor.execute(query)
     result = cursor.fetchall()[0]
     result_json=json.dumps(result)
     result_df=pd.read_json(result_json)
-
+    lock.release()
     # Plot the pie chart
     labels=['Pursuing further studies','Unemployed','Worked AND/OR studied previously but not anymore','Both pursuing further studies AND working','Data not available','Working']
     fig = px.pie(result_df,values=0, names=labels,hole=0.4, color_discrete_sequence=px.colors.sequential.Burgyl,
@@ -36,29 +45,30 @@ def generate_pie_chart(course_name, kis_mode):
     fig.update_layout(
     title_font_family="Fantasy",
     title_font_size=30,
-    #title_font_color="black",
     legend=dict(y=0.5),
     title=dict(x=0.5))
-    fig.show()
-generate_pie_chart('design studies', 2)
-
-def generate_satisfaction_indicators(course_name, kis_mode):
-    # Find course index (ie. FK) corresponding to the user-selected course name and kis_mode
-    query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
-    cursor.execute(query)
-    result = cursor.fetchall()[0]
-    result_json=json.dumps(result)
-    result_df=pd.read_json(result_json)
-    course_index=result_df[0][0]
+    #fig.show()
+    return fig
+#generate_pie_chart('design studies', 2)
+#generate_pie_chart(course_index)
+def generate_satisfaction_indicators(course_index):
+    # # Find course index (ie. FK) corresponding to the user-selected course name and kis_mode
+    # query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
+    # cursor.execute(query)
+    # result = cursor.fetchall()[0]
+    # result_json=json.dumps(result)
+    # result_df=pd.read_json(result_json)
+    # course_index=result_df[0][0]
 
     # Select satisfaction data (from satisfaction sqlite table) associated to the 
     # given course index (i.e. to the user-selected course name and study mode)
     query="SELECT GOWORKMEAN,GOWORKONTRACK,GOWORKSKILLS FROM satisfaction WHERE COURSE_INDEX='{}';".format(course_index)
+    lock.acquire()
     cursor.execute(query)
     result = cursor.fetchall()[0]
     result_json=json.dumps(result)
     result_df=pd.read_json(result_json)
-
+    lock.release()
     # Plot the indicators
     labels=['Agree or strongly agree that their current job is meaningful',
             'Agree or strongly agree that their current job fits their future plan',
@@ -66,21 +76,21 @@ def generate_satisfaction_indicators(course_name, kis_mode):
     fig = go.Figure()
     fig.add_trace(go.Indicator(
     value = result_df[0][0],
-    title = {'text': str(labels[0])},
+    title = {'text': str(labels[0]),'font_size':10},
     gauge = {'axis': {'range': [None, 100]},
              'bar': {'color': str(px.colors.sequential.Burgyl[0])}},
     domain = {'row': 0, 'column': 0}))
     
     fig.add_trace(go.Indicator(
     value = result_df[0][1],
-    title = {'text': str(labels[1])},
+    title = {'text': str(labels[1]),'font_size':10},
     gauge = {'axis': {'range': [None, 100]},
              'bar': {'color': str(px.colors.sequential.Burgyl[2])}},
     domain = {'row': 1, 'column': 0}))
 
     fig.add_trace(go.Indicator(
     value = result_df[0][2],
-    title = {'text': str(labels[2])},
+    title = {'text': str(labels[2]),'font_size':10},
     gauge = {'axis': {'range': [None, 100]},
              'bar': {'color': str(px.colors.sequential.Burgyl[4])}},
     domain = {'row': 2, 'column': 0}))
@@ -94,21 +104,14 @@ def generate_satisfaction_indicators(course_name, kis_mode):
                 },
     title = {'text':'HOW DO GRADUATES FROM YOUR COURSE FEEL?',
              'x':0.5,
-             'font':dict(size=30),
+             'font':dict(size=20),
              'font_family': 'Fantasy',
              'x':0.5})
-    fig.show()
-generate_satisfaction_indicators('design studies',1)
+    #fig.show()
+    return fig
+#generate_satisfaction_indicators('design studies',1)
 
-def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
-
-    # Find course index (ie. FK) corresponding to the user-selected course name, and kis_mode 
-    query="SELECT COURSE_INDEX FROM course WHERE COURSE='{}' and KISMODE='{}';".format(course_name, kis_mode)
-    cursor.execute(query)
-    result = cursor.fetchall()[0]
-    result_json=json.dumps(result)
-    result_df=pd.read_json(result_json)
-    course_index=result_df[0][0]
+def generate_bar_chart(course_index, kis_level,countries=list):
 
     # Select salary data (from satisfaction sqlite table) associated to the 
     # given course index (i.e. to the user-selected course name and study mode)and kis_level
@@ -133,11 +136,12 @@ def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
     salary_cols=' '.join(salary_cols)
     
     query="SELECT {} FROM salary WHERE COURSE_INDEX='{}' and KISLEVEL='{}' ;".format(salary_cols, course_index,kis_level)
+    lock.acquire()
     cursor.execute(query)
     result = cursor.fetchall()[0]
     result_json=json.dumps(result)
     result_df=pd.read_json(result_json)
-    
+    lock.release()
     #add a column to the dataframe with the countries names
     result_df['Country']=''
     start_idx=0
@@ -199,5 +203,5 @@ def generate_bar_chart(course_name, kis_mode, kis_level,countries=list):
                       title_font_size=30,barmode='group', 
                       xaxis_tickangle=-45,
                       legend_font_size=15)
-    fig.show()
-generate_bar_chart('design studies', 1, 3, countries=['UK','Wales', 'NI','Scotland', 'England'])
+    return fig
+#generate_bar_chart('design studies', 1, 3, countries=['UK','Wales', 'NI','Scotland', 'England'])

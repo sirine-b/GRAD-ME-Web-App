@@ -1,12 +1,20 @@
-from dash import Dash, html
+from dash import Dash, html,dcc, Input,Output, State
 import dash_bootstrap_components as dbc
 import dash
 import pandas as pd
 import sqlite3
 import json
 
-# Establish connection with sqlite database
-sqliteConnection = sqlite3.connect('database.sqlite')
+from figures import *
+
+course_index=find_course_index('design studies',1)
+
+pie_chart=generate_pie_chart(course_index)
+satisfaction_indicators=generate_satisfaction_indicators(course_index)
+bar_chart=generate_bar_chart(course_index,3,['UK'])
+
+#Establish connection with sqlite database
+sqliteConnection = sqlite3.connect('database.sqlite',check_same_thread=False)
 cursor = sqliteConnection.cursor()
 
 #Select column with course names from course table in database.sqlite
@@ -39,22 +47,7 @@ meta_tags = [
 app = Dash(__name__,external_stylesheets=external_stylesheets,meta_tags=meta_tags)
 
 # Define the three rows of the app layout 
-
-#style={"textAlign":"center", "color":"green","font-weight": "bold","font":"Times New Roman", "font-family":"Copperplate"}
-#style={"color": "green", "fontSize": 20, "font-weight":"bold", "font-family":"Copperplate"}
-# #"In one single page, learn about what students who graduated from your exact course went on to do after graduation,\
-#                          how much they get paid and how satisfied they are with their current job.\
-#                          Our goal at GRAD:ME! is to make post-graduation seem less scary and we hope that this dashboard will help,\
-#                          even just a little :)", id="third_paragraph_row1"
-# html.P("Here, you will find all the info you need in ONE SINGLE page!", id="third_paragraph_row1")
 row_one = html.Div(
-    # dbc.Row([
-    #     dbc.Col([html.H1("GRAD:ME! Dashboard", id='app_header'), 
-    #              html.P("Are you a final year undergraduate student? Getting nervous about the next steps as graduation approaches?\
-    #                     Tired of browsing tens of different websites to get reliable information regarding post-graduation life?", id="first_paragraph_row1"),
-    #              html.P("Welcome to GRAD:ME! Dashboard !",id="second_paragraph_row1", style={"font-weight":"bold"}),
-    #              ], width={"size": 12}),
-    # ]),
         dbc.Row([
         dbc.Col([html.H1("Welcome to GRAD:ME! Dashboard", id='app_header'), 
                  html.P("Find all the infomation you need regarding employment prospects after graduation in ONE SINGLE PAGE !", id="first_paragraph_row1"),
@@ -65,7 +58,7 @@ row_one = html.Div(
 row_two = html.Div(
     dbc.Row([
         dbc.Col(children=[dbc.Label("Select your course"), 
-                          dbc.Select(id="dropdown_1",
+                          dbc.Select(id="course_name_select",
                                      # id uniquely identifies the element, will be needed later
                                      #value="COURSE 1",  # The default selection,
                                      #id="course_name_selector"
@@ -80,7 +73,7 @@ row_two = html.Div(
                                 {"label": "Part-Time", "value": 2}
                             ],
                             value=1,
-                            id="kis_mode_selector")],
+                            id="kis_mode_select")],
                             width=4),
         dbc.Col(children=[dbc.Label("Select your kis level"), 
                     dbc.RadioItems(
@@ -89,14 +82,21 @@ row_two = html.Div(
                         {"label": "4", "value": 4}
                     ],
                     value=3,
-                    id="kis_level_selector")],
+                    id="kis_level_select")],
                     width=4)
     ]),
 )
 
 row_three = html.Div(
     dbc.Row([
-        dbc.Col(children='hey'),
+        dbc.Col(dcc.Graph(id="pie_chart",figure=pie_chart)),
+        dbc.Col(dcc.Graph(id="satisfaction_indicators",figure=satisfaction_indicators))
+                 ])
+)
+
+row_four = html.Div(
+    dbc.Row([
+        dbc.Col(dcc.Graph(id="bar_chart",figure=bar_chart)),
         dbc.Col(children=[dbc.Label("Select the countries you would like to work in"), 
                          dbc.Checklist(
                         options=[
@@ -106,7 +106,8 @@ row_three = html.Div(
                             {'label': 'Wales', 'value': 'Wales'},
                             {'label': 'Northern Ireland', 'value': 'NI'}
                         ],
-                        value=['UK']
+                        value=['UK'],
+                        id='countries_select'
     )]),
     ])
     )
@@ -116,10 +117,55 @@ row_three = html.Div(
 app.layout = dbc.Container([
     row_one,
     row_two,
-    row_three
+    row_three,
+    row_four
 ])
 
+@app.callback(
+        Output(component_id="pie_chart",component_property="figure"),
+        #trigger the callback/figure update once the kis_level is selected
+        Input(component_id="kis_level_select",component_property="value"),
+        [
+            State("course_name_select","value"),
+            State("kis_mode_select", "value")
+        ]
+)
 
+@app.callback(
+        Output(component_id="satisfaction_indicators",component_property="figure"),
+        #trigger the callback/figure update once the kis_level is selected
+        Input(component_id="kis_level_select",component_property="value"),
+        [
+            State("course_name_select","value"),
+            State("kis_mode_select", "value")
+        ]
+)
+
+@app.callback(
+        Output(component_id="bar_chart",component_property="figure"),
+        #trigger the callback/figure update once the kis_level is selected
+        Input(component_id="countries_select",component_property="value"),
+        [
+            State("course_name_select","value"),
+            State("kis_mode_select", "value"),
+            State("kis_level_select", "value")
+        ]
+)
+
+def update_pie_chart(input1,input2,input3):
+    course_index=find_course_index(input2,input3)
+    pie_chart=generate_pie_chart(course_index)
+    return pie_chart
+
+def update_satisfaction_indicators(input1,input2,input3):
+    course_index=find_course_index(input2,input3)
+    satisfaction_indicators=generate_satisfaction_indicators(course_index)
+    return satisfaction_indicators
+
+def update_bar_chart(input1,input2,input3,input4):
+    course_index=find_course_index(input2,input3)
+    bar_chart=generate_bar_chart(course_index,input4,input1)
+    return bar_chart
 # Run the Dash app
 if __name__ == '__main__':
     app.run(debug=True)
