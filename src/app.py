@@ -1,6 +1,5 @@
 from dash import Dash, html,dcc, Input,Output, State
 import dash_bootstrap_components as dbc
-import dash
 import pandas as pd
 import sqlite3
 import json
@@ -36,7 +35,7 @@ for row in range(len(result_pd)):
 
 
 # Variable that contains the external_stylesheet to use (ie.Flatly styling from dash bootstrap components (dbc))
-external_stylesheets = [dbc.themes.LITERA]
+external_stylesheets = [dbc.themes.QUARTZ]
 
 # Variable that contains the meta tags (to ensure responsive design)
 meta_tags = [
@@ -74,7 +73,7 @@ row_two = html.Div(
                             ],
                             value=1,
                             id="kis_mode_select")],
-                            width=4),
+                            width=3),
         dbc.Col(children=[dbc.Label("Select your kis level"), 
                     dbc.RadioItems(
                     options=[
@@ -83,7 +82,8 @@ row_two = html.Div(
                     ],
                     value=3,
                     id="kis_level_select")],
-                    width=4)
+                    width=3),
+        dbc.Col(html.Button('Search!', id='search_button', n_clicks=0),width=1)
     ]),
 )
 
@@ -96,7 +96,7 @@ row_three = html.Div(
 
 row_four = html.Div(
     dbc.Row([
-        dbc.Col(dcc.Graph(id="bar_chart",figure=bar_chart)),
+        dbc.Col(dcc.Graph(id="bar_chart",figure=bar_chart),width=10),
         dbc.Col(children=[dbc.Label("Select the countries you would like to work in"), 
                          dbc.Checklist(
                         options=[
@@ -124,31 +124,10 @@ app.layout = dbc.Container([
 @app.callback(
         Output(component_id="pie_chart",component_property="figure"),
         #trigger the callback/figure update once the kis_level is selected
-        Input(component_id="kis_level_select",component_property="value"),
+        Input("search_button","n_clicks"),
         [
             State("course_name_select","value"),
             State("kis_mode_select", "value")
-        ]
-)
-
-@app.callback(
-        Output(component_id="satisfaction_indicators",component_property="figure"),
-        #trigger the callback/figure update once the kis_level is selected
-        Input(component_id="kis_level_select",component_property="value"),
-        [
-            State("course_name_select","value"),
-            State("kis_mode_select", "value")
-        ]
-)
-
-@app.callback(
-        Output(component_id="bar_chart",component_property="figure"),
-        #trigger the callback/figure update once the kis_level is selected
-        Input(component_id="countries_select",component_property="value"),
-        [
-            State("course_name_select","value"),
-            State("kis_mode_select", "value"),
-            State("kis_level_select", "value")
         ]
 )
 
@@ -157,16 +136,39 @@ def update_pie_chart(input1,input2,input3):
     pie_chart=generate_pie_chart(course_index)
     return pie_chart
 
+@app.callback(
+        Output(component_id="satisfaction_indicators",component_property="figure"),
+        #trigger the callback/figure update once the kis_level is selected
+        Input("search_button","n_clicks"),
+        [
+            State("course_name_select","value"),
+            State("kis_mode_select", "value")
+        ]
+)
 def update_satisfaction_indicators(input1,input2,input3):
     course_index=find_course_index(input2,input3)
     satisfaction_indicators=generate_satisfaction_indicators(course_index)
     return satisfaction_indicators
 
-def update_bar_chart(input1,input2,input3,input4):
+@app.callback(
+        Output(component_id="bar_chart",component_property="figure"),
+        #trigger the callback/figure update once the kis_level is selected
+        Input("search_button","n_clicks"),
+        [
+            State("course_name_select","value"),
+            State("kis_mode_select", "value"),
+            State("kis_level_select", "value"),
+            State("countries_select", "value")
+        ]
+)
+
+def update_bar_chart(input1,input2,input3,input4,input5):
+    print(input4,input5)
     course_index=find_course_index(input2,input3)
-    bar_chart=generate_bar_chart(course_index,input4,input1)
+    bar_chart=generate_bar_chart(course_index,input4,input5)
     return bar_chart
+
 # Run the Dash app
 if __name__ == '__main__':
     app.run(debug=True)
-    # Runs on port 8050 by default. If you have a port conflict, add the parameter port=   e.g. port=8051
+    # Runs on port 8050 by default. 
