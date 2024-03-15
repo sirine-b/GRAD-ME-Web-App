@@ -208,8 +208,8 @@ def generate_bar_chart(course_index, kis_level,countries=list):
 
     # Here we modify the tickangle of the xaxis, resulting in rotated labels.
     fig.update_layout(title=dict(text='HOW MUCH ARE GRADUATES FROM YOUR COURSE PAID?',x=0.5), 
-                      #title_font_family="Fantasy",
-                      #title_font_size=30,barmode='group', 
+                      title_font_family="Fantasy",
+                      title_font_size=20,barmode='group', 
                       xaxis_tickangle=-45,
                       legend_font_size=15)
     return fig
