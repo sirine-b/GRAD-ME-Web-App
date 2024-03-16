@@ -3,11 +3,12 @@ import dash_bootstrap_components as dbc
 import pandas as pd
 import sqlite3
 import json
+import plotly.express as px
+import plotly.colors
 
 from figures import *
 
 course_index=find_course_index('design studies',1)
-
 pie_chart=generate_pie_chart(course_index)
 satisfaction_indicators=generate_satisfaction_indicators(course_index)
 bar_chart=generate_bar_chart(course_index,3,['UK'])
@@ -23,7 +24,7 @@ result = cursor.fetchall()
 # Convert selected course names into json format
 result_json=json.dumps(result)
 # Convert json format into pandas object (df)
-result_pd=pd.read_json(result_json)
+result_pd=pd.read_json(StringIO(result_json))
 # Remove course name duplicates (in the table they are not really dups bc although it's the same course_name, they have different study modes)
 result_pd=result_pd.drop_duplicates()
 
@@ -37,9 +38,12 @@ for row in range(len(result_pd)):
 # Define the four rows of the app layout 
 row_one = html.Div(
         dbc.Row([
-        dbc.Col([html.H1("Welcome to GRAD:ME! Dashboard", id='app_header'), 
+        dbc.Col([html.H1("Welcome to GRAD:ME! Dashboard !", id='app_header', style={'font-family': 'Fantasy','color':'DeepSkyBlue3'}),#'color': px.colors.sequential.Burgyl[3]}), 
                  html.P("Find all the infomation you need regarding employment prospects after graduation in ONE SINGLE PAGE !", id="first_paragraph_row1"),
-                 ], width={"size": 12}),
+                 ]),
+        dbc.Col([html.Div(
+            id="errors",
+            style={'color':'red'})])
     ]),
 )
 
@@ -72,7 +76,10 @@ row_two = html.Div(
                     value=3,
                     id="kis_level_select")],
                     width=3),
-        dbc.Col(html.Button('Search!', id='search_button', n_clicks=0),width=1)
+        dbc.Col(dbc.Button('Search!', id='search_button', n_clicks=0),
+                style={'font-size': '15px', 'width': '140px', 'display': 'inline-block', 
+                      'margin-bottom': '10px', 'margin-top': '10px', 'margin-right': '5px', 
+                      'height':'25px'})
     ]),
 )
 
@@ -96,7 +103,9 @@ row_four = html.Div(
                             {'label': 'Northern Ireland', 'value': 'NI'}
                         ],
                         value=['UK'],
-                        id='countries_select'
-    )]),
+                        id='countries_select')
+        ])
     ])
     )
+
+# row_five= html.Div(id='errors')
