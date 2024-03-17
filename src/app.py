@@ -5,6 +5,7 @@ import sqlite3
 import json
 from dash.exceptions import PreventUpdate
 from dash.dash import no_update
+import plotly.express as px
 
 from figures import *
 from layout_elements import *
@@ -29,17 +30,6 @@ app.layout = dbc.Container([
     row_four
 ])
 
-# def check_course_index(input1,input2,input3):
-#     course_index=find_course_index(input2,input3)
-#     if course_index=='error':
-#         error = dbc.Alert("Sorry, no employment data is currently available for the selected course :(\
-#                            We will try our best to add it to our database soon! In the meantime,\
-#                            please select a different study mode, kis level or course name.")
-#         return no_update,error
-#     else:
-#         error=''
-#         return pie_chart,no_update
-
 @app.callback(
         Output(component_id="pie_chart",component_property="figure"),
         Output(component_id="errors", component_property="children",allow_duplicate=True),
@@ -56,15 +46,14 @@ def update_pie_chart(input1,input2,input3):
     course_index=find_course_index(input2,input3)
     pie_chart=generate_pie_chart(course_index)
     if pie_chart=='error':
-        error = dbc.Alert("Sorry, no employment data is currently available for the selected course :(\
-                           We will try our best to add it to our database soon! In the meantime,\
-                           please select a different study mode, kis level or course name.")
+        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
+                        We will try our best to add it to our database soon!\
+                        Please select a different study mode, kis level or course name.",
+                        color=px.colors.sequential.Burgyl[3],)
         return no_update,error
     else:
         error=''
-        return pie_chart,no_update
-
-    return pie_chart
+        return pie_chart,error
 
 @app.callback(
         Output(component_id="satisfaction_indicators",component_property="figure"),
@@ -81,13 +70,14 @@ def update_satisfaction_indicators(input1,input2,input3):
     course_index=find_course_index(input2,input3)
     satisfaction_indicators=generate_satisfaction_indicators(course_index)
     if satisfaction_indicators=='error':
-        error = dbc.Alert("Sorry, no graduate satisfaction data is currently available for the selected course :(\
-                           We will try our best to add it to our database soon! In the meantime,\
-                           please select a different study mode, kis level or course name.")
+        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
+                        We will try our best to add it to our database soon!\
+                        Please select a different study mode, kis level or course name.",
+                        color=px.colors.sequential.Burgyl[3],)
         return no_update,error
     else:
         error=''
-        return satisfaction_indicators,no_update
+        return satisfaction_indicators,error
 
 # Callback to update barcharts: 2 triggers => 1.when the user selects new countries 
 # 2. when user clicks on search button (ie selects new course info)
@@ -102,17 +92,17 @@ def update_satisfaction_indicators(input1,input2,input3):
             State("kis_mode_select", "value"),
             State("kis_level_select", "value"),
             State("countries_select", "value"),
-            State("errors", "children")
         ],
         prevent_initial_call=True
 )
-def update_bar_chart(input1,input2,input3,input4,input5,input6,input7):
+def update_bar_chart(input1,input2,input3,input4,input5,input6):
     course_index=find_course_index(input3,input4)
     bar_chart=generate_bar_chart(course_index,input5,input6)
     if bar_chart=='error':
-        error = dbc.Alert("Sorry, no salary data is currently available for the selected course :(\
-                           We will try our best to add it to our database soon! In the meantime,\
-                           please select a different study mode, kis level or course name.")
+        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
+                        We will try our best to add it to our database soon!\
+                        Please select a different study mode, kis level or course name.",
+                        color=px.colors.sequential.Burgyl[3],)
         return no_update,error
     else:
         error=''
@@ -121,5 +111,5 @@ def update_bar_chart(input1,input2,input3,input4,input5,input6,input7):
 
 # Run the Dash app
 if __name__ == '__main__':
-    app.run(debug=True,use_reloader=True)
+    app.run(debug=True)
     # Runs on port 8050 by default. 

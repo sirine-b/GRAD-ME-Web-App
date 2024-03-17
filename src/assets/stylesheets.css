@@ -1,0 +1,20 @@
+/* Change the colour of my info tooltip so that it matches teh web-app's palette*/
+.tooltip-inner {
+    background-color: rgb(238, 97, 121)
+  }
+  
+  .bs-tooltip-top .tooltip-arrow::before,
+  .bs-tooltip-auto[data-popper-placement^=top] .tooltip-arrow::before {
+      border-top-color: rgb(238, 97, 121);
+  }
+  .bs-tooltip-end .tooltip-arrow::before,
+  .bs-tooltip-auto[data-popper-placement^=right] .tooltip-arrow::before {
+      border-right-color:rgb(238, 97, 121);
+  }
+  .bs-tooltip-bottom .tooltip-arrow::before,
+  .bs-tooltip-auto[data-popper-placement^=bottom] .tooltip-arrow::before {
+      border-bottom-color:rgb(238, 97, 121);
+  }
+  .bs-tooltip-start .tooltip-arrow::before,
+  .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
+      border-left-color: rgb(238, 97, 121);
