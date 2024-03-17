@@ -84,6 +84,7 @@ def update_satisfaction_indicators(input1,input2,input3):
 @app.callback(
         Output(component_id="bar_chart",component_property="figure"),
         Output(component_id="errors",component_property="children",allow_duplicate=True),
+        Output(component_id="no_countries_selected_error",component_property="children"),
         #trigger the callback/figure update once a new countries is selected/removed
         Input("countries_select","value"),
         Input("search_button","n_clicks"),
@@ -98,15 +99,22 @@ def update_satisfaction_indicators(input1,input2,input3):
 def update_bar_chart(input1,input2,input3,input4,input5,input6):
     course_index=find_course_index(input3,input4)
     bar_chart=generate_bar_chart(course_index,input5,input6)
-    if bar_chart=='error':
-        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
-                        We will try our best to add it to our database soon!\
-                        Please select a different study mode, kis level or course name.",
-                        color=px.colors.sequential.Burgyl[3],)
-        return no_update,error
+    if bar_chart=='no_countries_selected_error':
+        error_countries = dbc.Alert("WARNING! No country was selected. Please make sure to select\
+                                     at least one to visualise salary data.",
+                        color=px.colors.sequential.Burgyl[2],)
+        return no_update,no_update, error_countries
     else:
-        error=''
-        return bar_chart,error
+        error_countries=''
+        if bar_chart=='error':
+            error = dbc.Alert("MESSAGE FROM OUR TEAM: Sorry, no data is currently available for the selected course options.\
+                            We will try our best to add it to our database soon!\
+                            Please select a different study mode, kis level or course name.",
+                            color=px.colors.sequential.Burgyl[5],)
+            return no_update,error, error_countries
+        else:
+            error=''
+            return bar_chart,error,error_countries
 
 
 # Run the Dash app

@@ -140,6 +140,8 @@ def generate_satisfaction_indicators(course_index):
 
 def generate_bar_chart(course_index, kis_level,countries=list):
     # check if salary data is available for the user-selected course info 
+    if not countries:
+        return 'no_countries_selected_error'
     lock.acquire()
     cursor.execute("SELECT COURSE_INDEX FROM salary WHERE COURSE_INDEX=?",(str(course_index),))
     record = cursor.fetchone()

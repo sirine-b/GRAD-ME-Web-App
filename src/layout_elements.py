@@ -41,11 +41,11 @@ image_path='assets\info_tooltip_logo.png'
 row_one = html.Div(
         dbc.Row([
         dbc.Col([html.H1("Welcome to GRAD:ME! Dashboard !!!", id='app_header', style={'font-family': 'Fantasy',\
-                                                'color':px.colors.sequential.Burgyl[3],'text-align':'right'}),
-                 html.P(["About to graduate and nervous about what's to come? Worry no more!", html.Br(),\
-                         "Find all the infomation you need regarding employment prospects post",html.Br(),\
-                        "graduation on our single page GRAD:ME! Dashboard! Now, get surfing :)"], \
-                            id="first_paragraph_row1",style={'font-size':20,'text-align':'right'}),
+                                                'color':px.colors.sequential.Burgyl[3],'padding-left':'70px'}),
+                 dbc.Alert(["About to graduate and nervous about what's to come? Worry no more!", html.Br(),\
+                         "Find all the infomation you need regarding employment prospects",html.Br(),
+                        "post graduation on our single page GRAD:ME! Dashboard!"], \
+                            id="intro_text",style={'font-size':18,'font-weight':'bold','left':'60px','width':'600px'},color=px.colors.sequential.Burgyl[3]),
                  ],width=8),
         dbc.Col([html.Div(
             id="errors")])
@@ -77,7 +77,7 @@ row_two = html.Div(
                                 {"label": "3", "value": 3},
                                 {"label": "4", "value": 4}
                     ],
-                    value=2,
+                    value=3,
                     id="kis_level_select",
                     ),
                         dbc.Tooltip(
@@ -89,23 +89,26 @@ row_two = html.Div(
         dbc.Col(dbc.Button('Search!', id='search_button', n_clicks=0),
                 style={'font-size': '15px', 'width': '140px', 'display': 'inline-block', 
                       'margin-bottom': '50px', 'margin-top': '30px', 'margin-right': '5px', 
-                      'height':'25px'}, )
+                      'height':'25px'})
                       #className="d-grid gap-2 d-md-flex justify-content-md-end")
                       
     ]),
+    #set space between this row and the previous one
+    style={'height':'85px'}
 )
 
 row_three = html.Div(
     dbc.Row([
         dbc.Col(dcc.Graph(id="pie_chart",figure=pie_chart)),
         dbc.Col(dcc.Graph(id="satisfaction_indicators",figure=satisfaction_indicators))
-                 ])
+                 ]),
+        style={'height':'385px'}
 )
 
 row_four = html.Div(
     dbc.Row([
         dbc.Col(dcc.Graph(id="bar_chart",figure=bar_chart),width=10),
-        dbc.Col(children=[dbc.Label("Select the countries you would like to work in"), 
+        dbc.Col(children=[dbc.Label("Select the countries you would like to work in:"), 
                          dbc.Checklist(
                         options=[
                             {'label': 'United Kingdom', 'value': 'UK'},
@@ -115,7 +118,8 @@ row_four = html.Div(
                             {'label': 'Northern Ireland', 'value': 'NI'}
                         ],
                         value=['UK'],
-                        id='countries_select')
-        ])
+                        id='countries_select'),
+                        html.Div(id="no_countries_selected_error")
+        ], style={'padding-top':'100px'})
     ])
     )
