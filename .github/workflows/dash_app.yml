@@ -30,6 +30,7 @@ jobs:
         pip install -r requirements.txt
         pip install e-.
         pip install selenium pytest
+        pip install chromedriver-autoinstaller
     - name: Lint with pylint
       run: |
         # stop the build if there are Python syntax errors or undefined names
