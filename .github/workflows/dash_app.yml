@@ -29,7 +29,7 @@ jobs:
         python -m pip install dash[testing]
         pip install flake8 pytest pytest-cov
         pip install -r requirements.txt
-        pip install e-.
+        pip install -e .
         pip install selenium pytest
     - name: Lint with pylint
       run: |
