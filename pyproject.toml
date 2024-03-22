@@ -8,11 +8,11 @@ requires = ["setuptools", "setuptools-scm"]
 build-backend = "setuptools.build_meta"
 
 [tool.setuptools.packages.find]
-where = ["src"]  # list of folders that contain the packages (["."] by default)
+include = ["src"]  # list of folders that contain the packages (["."] by default)
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.pytest.ini_options]
-testpaths = ["src"]
+testpaths = ["src/tests"]
 addopts = "-rA --verbose"
 
 [tool.coverage.run]
