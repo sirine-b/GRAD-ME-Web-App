@@ -47,4 +47,4 @@ def test_app_header(dash_duo):
     h1_text = dash_duo.find_element("h1").text
 
     # Check the heading has the text we expect
-    assert h1_text == "Welcome to GRAD:ME! Dashboard !!!"
+    assert h1_text == "Welcome to GRAD:ME! Dashboa"
