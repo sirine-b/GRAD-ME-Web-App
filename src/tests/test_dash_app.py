@@ -30,3 +30,21 @@ def test_server_live(dash_duo):
 
     # Use pytest assertion to check that the status code in the HTTP response is 200 (i.e. success)
     assert response.status_code == 200
+
+def test_app_header(dash_duo):
+    """
+    GIVEN the app is running
+    WHEN the home page is available
+    THEN the H1 heading text should be "Welcome to GRAD:ME! Dashboard !!!"
+    """
+    app = import_app(app_file="src.app")
+    dash_duo.start_server(app)
+
+    # Wait for the H1 heading to be visible, timeout if this does not happen within 4 seconds
+    dash_duo.wait_for_element("h1", timeout=4)
+
+    # Find the text content of the H1 heading element
+    h1_text = dash_duo.find_element("h1").text
+
+    # Check the heading has the text we expect
+    assert h1_text == "Welcome to GRAD:ME! Dashboard !!!"
