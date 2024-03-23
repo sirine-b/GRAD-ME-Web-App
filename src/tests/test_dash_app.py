@@ -63,7 +63,7 @@ def test_select_course_filters(dash_duo):
 
     # Wait for the kis_mode_select heading to be visible, timeout if this does not happen within 4 seconds
     #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
-    dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
+    # dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
 
     sat_meaningfulness_before=dash_duo.driver.find_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
     #check that the correct value of the first satisfaction indicator is displayed for the default filter values
