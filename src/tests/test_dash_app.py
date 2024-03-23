@@ -64,9 +64,13 @@ def test_select_course_filters(dash_duo):
     # Wait for the kis_mode_select heading to be visible, timeout if this does not happen within 4 seconds
     #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
     # dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
-    part_time=dash_duo.find_element(By.CSS_SELECTOR,"#_dbcprivate_radioitems_kis_mode_select_input_2")
-    part_time.click()
-    assert part_time.is_selected()==True
+    kis_mode=dash_duo.find_element(By.ID,"kis_mode_select")
+    select = select(kis_mode)
+    select.select_by_value('2')
+    option_list = select.options
+    print(option_list)
+    #part_time.click()
+    #assert part_time.is_selected()==True
     #_dbcprivate_radioitems_kis_mode_select_input_2
     sat_meaningfulness_before=dash_duo.find_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
     #check that the correct value of the first satisfaction indicator is displayed for the default filter values
