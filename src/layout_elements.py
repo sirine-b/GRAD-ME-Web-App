@@ -6,7 +6,7 @@ import json
 import plotly.express as px
 
 
-from figures import *
+from src.figures import *
 #from app import*
 
 course_index=find_course_index('design studies',1)
