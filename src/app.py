@@ -7,8 +7,8 @@ from dash.exceptions import PreventUpdate
 from dash.dash import no_update
 import plotly.express as px
 
-from src.figures import *
-from src.layout_elements import *
+from figures import *
+from layout_elements import *
 
 # Variable that contains the external_stylesheet to use (ie.Flatly styling from dash bootstrap components (dbc))
 external_stylesheets = [dbc.themes.LUMEN]
