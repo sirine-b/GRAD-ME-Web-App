@@ -62,7 +62,7 @@ def test_select_course_filters(dash_duo):
     dash_duo.start_server(app)
 
     # Wait for the kis_mode_select heading to be visible, timeout if this does not happen within 4 seconds
-    dash_duo.wait_for_element("h1", timeout=4)
+    dash_duo.wait_for_element("#app_header", timeout=4)
 
     search_button=dash_duo.find_element('search_button')
     #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
