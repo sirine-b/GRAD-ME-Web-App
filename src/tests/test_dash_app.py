@@ -62,16 +62,20 @@ def test_select_course_filters(dash_duo):
     dash_duo.start_server(app)
 
     # Wait for the kis_mode_select heading to be visible, timeout if this does not happen within 4 seconds
-    dash_duo.wait_for_element("#app_header", timeout=4)
+    dash_duo.wait_for_element("#search_button", timeout=4)
 
-    search_button=dash_duo.find_element('search_button')
-    #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
-    # dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
-    kis_mode_selector='#kis_level_select > div:nth-child(2)'
-    #kis_mode_selector='#_dbcprivate_radioitems_kis_level_select_input_4'
-    kis_mode=dash_duo.find_element(By.CSS_SELECTOR,kis_mode_selector)
-    kis_mode.click()
-    search_button.click()
+    search_button=dash_duo.find_element('#search_button')
+    kis_mode_full_time=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
+
+
+    # search_button=dash_duo.find_element('#search_button')
+    # #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
+    # # dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
+    # kis_mode_selector='#kis_level_select > div:nth-child(2)'
+    # #kis_mode_selector='#_dbcprivate_radioitems_kis_level_select_input_4'
+    # kis_mode=dash_duo.find_element(By.CSS_SELECTOR,kis_mode_selector)
+    # kis_mode.click()
+    # search_button.click()
 
     # select = select(kis_mode)
     # select.select_by_value('2')
