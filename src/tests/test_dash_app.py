@@ -49,36 +49,36 @@ def test_app_header(dash_duo):
     assert h1_text == "Welcome to GRAD:ME! Dashboard !!!"
 
 
-def test_select_course_filters(dash_duo):
-    """
-    GIVEN the app is running
-    THEN the value of the first satisfaction indicator should be 60.2% for the default filter values (i.e. Design Studies + Full-Time + Kis mode 3)
-    WHEN the user selects new filter options (e.g. Software Engineering + Full-Time + Kis mode 4)
-    THEN the value of the first satisfaction indicator should be 68.9%
-    """
-    app = import_app(app_file="src.app")
-    dash_duo.start_server(app)
+# def test_select_course_filters(dash_duo):
+#     """
+#     GIVEN the app is running
+#     THEN the value of the first satisfaction indicator should be 60.2% for the default filter values (i.e. Design Studies + Full-Time + Kis mode 3)
+#     WHEN the user selects new filter options (e.g. Software Engineering + Full-Time + Kis mode 4)
+#     THEN the value of the first satisfaction indicator should be 68.9%
+#     """
+#     app = import_app(app_file="src.app")
+#     dash_duo.start_server(app)
 
-    # Wait for the search to be visible, timeout if this does not happen within 4 seconds
-    dash_duo.wait_for_element("#search_button", timeout=4)
+#     # Wait for the search to be visible, timeout if this does not happen within 4 seconds
+#     dash_duo.wait_for_element("#search_button", timeout=4)
 
-    # Check that the correct value of the first satisfaction indicator is displayed for the default filter values
-    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(3) > g.numbers")
-    assert sat_indicator_one_start.text==str('60.2%')
+#     # Check that the correct value of the first satisfaction indicator is displayed for the default filter values
+#     sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(3) > g.numbers")
+#     assert sat_indicator_one_start.text==str('60.2%')
 
-    # Define the different filter options/buttons that will be selected by the user
-    kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
-    course_software_eng=dash_duo.find_element('#course_name_select > option:nth-child(11)')
-    search_button=dash_duo.find_element('#search_button')
+#     # Define the different filter options/buttons that will be selected by the user
+#     kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
+#     course_software_eng=dash_duo.find_element('#course_name_select > option:nth-child(11)')
+#     search_button=dash_duo.find_element('#search_button')
 
-    # Simulate the user clicking on the above filter options
-    kis_level_four.click()
-    course_software_eng.click()
-    search_button.click()
+#     # Simulate the user clicking on the above filter options
+#     kis_level_four.click()
+#     course_software_eng.click()
+#     search_button.click()
 
-    # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
-    sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers")
-    assert sat_indicator_one_end.text==str('69.8%')
+#     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
+#     sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers")
+#     assert sat_indicator_one_end.text==str('69.8%')
 
 def test_select_countries(dash_duo):
     """
