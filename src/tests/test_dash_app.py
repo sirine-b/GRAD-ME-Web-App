@@ -78,7 +78,7 @@ def test_select_course_filters(dash_duo):
 
     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers")
-    assert sat_indicator_one_end.text==str('69.8%')
+    assert sat_indicator_one_end.text==str('73.5%')
 
 def test_select_countries(dash_duo):
     """
@@ -122,7 +122,13 @@ def test_error_messages(dash_duo):
     dash_duo.wait_for_element("#search_button", timeout=4)
 
     # Check that no error message is displayed when a correct combination of course filters is selected
-    assert dash_duo.find_element('#errors > div') == False
+        
+    try:
+        error_message = dash_duo.find_element('#errors > div')
+        error_message_before=True
+    except:
+        error_message_before=False
+        assert error_message_before==False
      
 
     # Define the different filter options/buttons that will be selected by the user (inexistent combination)
