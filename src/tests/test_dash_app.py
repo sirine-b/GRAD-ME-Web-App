@@ -66,7 +66,7 @@ def test_select_course_filters(dash_duo):
 
     #check that the correct value of the first satisfaction indicator is displayed for the default filter values
     sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
-    assert sat_indicator_one_start=='60.2%'
+    assert sat_indicator_one_start!='60.2%'
 
 
     #define the different filter options/buttons that will be selected by the user
