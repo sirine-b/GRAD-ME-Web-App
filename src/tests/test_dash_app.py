@@ -73,8 +73,7 @@ def test_select_course_filters(dash_duo):
     course_software_eng=dash_duo.find_element('#course_name_select > option:nth-child(11)')
     search_button=dash_duo.find_element('#search_button')
 
-
-    sat_indicator_one_start=dash_duo.find_element("satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
+    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
     print(sat_indicator_one_start)
 
     # simulate the user clicking on the above filter options
