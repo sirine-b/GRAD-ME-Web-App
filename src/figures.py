@@ -8,8 +8,7 @@ from plotly.subplots import make_subplots
 from threading import Lock
 from io import StringIO
 from dash.exceptions import PreventUpdate
-#import dash
-#from dash import html
+
 
 # Establish connection with sqlite database
 sqliteConnection = sqlite3.connect('database.sqlite',check_same_thread=False)
