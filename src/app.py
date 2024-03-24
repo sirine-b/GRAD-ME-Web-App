@@ -49,7 +49,7 @@ def update_pie_chart(input1,input2,input3):
         error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
                         We will try our best to add it to our database soon!\
                         Please select a different study mode, kis level or course name.",
-                        color=px.colors.sequential.Burgyl[3],)
+                        color=px.colors.sequential.Burgyl[5],)
         return no_update,error
     else:
         error=''
@@ -73,7 +73,7 @@ def update_satisfaction_indicators(input1,input2,input3):
         error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
                         We will try our best to add it to our database soon!\
                         Please select a different study mode, kis level or course name.",
-                        color=px.colors.sequential.Burgyl[3],)
+                        color=px.colors.sequential.Burgyl[5],)
         return no_update,error
     else:
         error=''
@@ -107,7 +107,7 @@ def update_bar_chart(input1,input2,input3,input4,input5,input6):
     else:
         error_countries=''
         if bar_chart=='error':
-            error = dbc.Alert("MESSAGE FROM OUR TEAM: Sorry, no data is currently available for the selected course options.\
+            error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
                             We will try our best to add it to our database soon!\
                             Please select a different study mode, kis level or course name.",
                             color=px.colors.sequential.Burgyl[5],)
