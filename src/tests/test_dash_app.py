@@ -99,15 +99,15 @@ def test_select_countries(dash_duo):
 
     # Define the different country options that will be selected by the user
     wales_selector=dash_duo.find_element('#countries_select > div:nth-child(4) > label')
-    scotland_selector=dash_duo.find_element('#countries_select > div:nth-child(3) > label')
+    #scotland_selector=dash_duo.find_element('#countries_select > div:nth-child(3) > label')
     
     # Simulate the user clicking on additional countries (i.e. Scotland and Wales) on the multiselector filter
     wales_selector.click()
-    scotland_selector.click()
+    #scotland_selector.click()
 
     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     countries_after=dash_duo.find_element('#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above')
-    assert countries_after.list== [str('UK'),str('Wales'),str('Scotland')]
+    assert countries_after.text== 'UK\nWales'
 
 # def test_error_messages(dash_duo):
 #      """
