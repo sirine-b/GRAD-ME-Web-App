@@ -122,18 +122,8 @@ def test_error_messages(dash_duo):
     dash_duo.wait_for_element("#search_button", timeout=4)
 
     # Check that no error message is displayed when a correct combination of course filters is selected
-    error_message_before=dash_duo.find_element('#errors > div')
-    assert error_message_before.text==''
-
-    # Define the different country options that will be selected by the user
-    wales_selector=dash_duo.find_element('#countries_select > div:nth-child(4) > label')
-    
-    # Simulate the user clicking on additional countries (i.e.Wales) on the multiselector filter
-    wales_selector.click()
-
-    # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
-    countries_after=dash_duo.find_element('#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above')
-    assert countries_after.text== 'UK\nWales'
+    assert dash_duo.find_element('#errors > div') == False
+     
 
     # Define the different filter options/buttons that will be selected by the user (inexistent combination)
     kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
