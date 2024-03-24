@@ -107,7 +107,7 @@ def test_select_countries(dash_duo):
 
     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     countries_after=dash_duo.find_element('#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above')
-    assert countries_after.text == [str('UK'),str('Wales'),str('Scotland')]
+    assert countries_after == [str('UK'),str('Wales'),str('Scotland')]
 
 # def test_error_messages(dash_duo):
 #      """
