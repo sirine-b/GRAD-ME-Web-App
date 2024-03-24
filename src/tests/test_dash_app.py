@@ -65,8 +65,8 @@ def test_select_course_filters(dash_duo):
     dash_duo.wait_for_element("#search_button", timeout=4)
 
     #check that the correct value of the first satisfaction indicator is displayed for the default filter values
-    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
-    assert sat_indicator_one_start!='60.2%'
+    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(3) > g.numbers > text")
+    assert sat_indicator_one_start=='60.2%'
 
 
     #define the different filter options/buttons that will be selected by the user
@@ -83,7 +83,7 @@ def test_select_course_filters(dash_duo):
 
     #check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
-    assert sat_indicator_one_end!='60.2%'
+    assert sat_indicator_one_end!='69.8%'
 
     # search_button=dash_duo.find_element('#search_button')
     # #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
