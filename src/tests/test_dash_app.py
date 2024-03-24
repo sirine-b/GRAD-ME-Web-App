@@ -65,16 +65,15 @@ def test_select_course_filters(dash_duo):
     dash_duo.wait_for_element("#search_button", timeout=4)
 
     #check that the correct value of the first satisfaction indicator is displayed for the default filter values
+    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
+    assert sat_indicator_one_start==str('60.2%')
 
 
     #define the different filter options/buttons that will be selected by the user
     kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
-    kis_mode_part_time=dash_duo.find_element('#_dbcprivate_radioitems_kis_mode_select_input_2')
+    #kis_mode_part_time=dash_duo.find_element('#_dbcprivate_radioitems_kis_mode_select_input_2')
     course_software_eng=dash_duo.find_element('#course_name_select > option:nth-child(11)')
     search_button=dash_duo.find_element('#search_button')
-
-    sat_indicator_one_start=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
-    print(sat_indicator_one_start)
 
     # simulate the user clicking on the above filter options
     kis_level_four.click()
@@ -82,8 +81,10 @@ def test_select_course_filters(dash_duo):
     course_software_eng.click()
     search_button.click()
 
-
     #check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
+    sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text")
+    assert sat_indicator_one_end!=str('60.2%')
+
     # search_button=dash_duo.find_element('#search_button')
     # #dash_duo.wait_for_element(By.ID, "kis_mode_select",timeout=4)
     # # dash_duo.wait_for_element(By.CSS_SELECTOR,"satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers > text",timeout=4)
