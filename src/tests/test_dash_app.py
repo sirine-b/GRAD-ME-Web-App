@@ -107,11 +107,9 @@ def test_select_countries(dash_duo):
     countries_after=dash_duo.find_element('#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1) > g.cartesianlayer > g > g.xaxislayer-above')
     assert countries_after.text== 'UK\nWales'
 
-def test_error_messages(dash_duo):
+def test_course_selection_error_message(dash_duo):
     """
     GIVEN the app is running
-    WHEN the user deselects all countries
-    THEN an error message should be displayed next to the bar plot to ask the user to select a country
     WHEN the user selects a combination of course options for which no data is available (e.g. )
     THEN an error message should be displayed on the top right of web app
     """
@@ -142,6 +140,10 @@ def test_error_messages(dash_duo):
     search_button.click()  
 
     error_message_after=dash_duo.find_element('#errors > div')
-    assert error_message_after.text=='Sorry, no data is currently available for the selected\
-          course options. We will try our best to add it to our database soon! Please select \
-            a different study mode, kis level or course name.'
+    assert error_message_after.text=='Sorry, no data is currently available for the selected course options. We will try our best to add it to our database soon! Please select a different study mode, kis level or course name.'
+
+    """
+    GIVEN the app is running
+    WHEN the user deselects all countries
+    THEN an error message should be displayed next to the bar plot to ask the user to select a country
+    """ 
