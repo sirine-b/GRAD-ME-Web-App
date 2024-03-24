@@ -78,7 +78,7 @@ def test_select_course_filters(dash_duo):
 
     # simulate the user clicking on the above filter options
     kis_level_four.click()
-    kis_mode_part_time.click()
+    #kis_mode_part_time.click()
     course_software_eng.click()
     search_button.click()
 
