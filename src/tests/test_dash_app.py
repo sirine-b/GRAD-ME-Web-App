@@ -183,7 +183,7 @@ def test_info_tooltip(dash_duo):
     """ 
 
     # Find the help tooltip on web page
-    info_tooltip=dash_duo.find_element("#tooltip_text")
+    info_tooltip=dash_duo.find_element("#info_tooltip")
 
 
     # Simulate a user hovering with their mouse on the tooltip
