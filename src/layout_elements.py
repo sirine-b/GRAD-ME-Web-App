@@ -70,8 +70,8 @@ row_two = html.Div(
                             id="kis_mode_select"),
                                 ],
                             width=2),
-        dbc.Col(children=[dbc.Label("Select your kis level",style={'float': 'left','height':'10px'}),
-                          html.Div(html.Img(src=image_path,style={'width': '35px','height':'20px'}),id='info_tooltip',title='tooltip') ,
+        dbc.Col(children=[dbc.Label("Select your kis level",style={'float': 'left','height':'10px'},id='kis_level_label'),
+                          html.Div(html.Img(src=image_path,style={'width': '35px','height':'20px'}),id='info_tooltip') ,
                           dbc.RadioItems(
                             options=[
                                 {"label": "3", "value": 3},
@@ -84,7 +84,7 @@ row_two = html.Div(
                             "Not sure what your course's kis level is?\
                             You can most likely find it on your course page\
                             through your university's website.",
-                            target="info_tooltip",placement='right',id='tooltip_text')],
+                            target="info_tooltip",placement='right',id='tooltip_text',)],
                     width=2),
         dbc.Col(dbc.Button('Search!', id='search_button', n_clicks=0),
                 style={'font-size': '15px', 'width': '140px', 'display': 'inline-block', 
