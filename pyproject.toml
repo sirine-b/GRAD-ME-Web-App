@@ -12,7 +12,7 @@ include = ["src"]  # list of folders that contain the packages (["."] by default
 namespaces = false  # to disable scanning PEP 420 namespaces (true by default)
 
 [tool.pytest.ini_options]
-testpaths = ["src/tests"]
+testpaths = ["tests"]
 addopts = "-rA --verbose"
 
 [tool.coverage.run]

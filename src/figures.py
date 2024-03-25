@@ -35,7 +35,6 @@ def find_course_index(course_name, kis_mode):
         return course_index
     else:
         return 'error'
-#course_index=find_course_index('design studies',2)
 
 def generate_pie_chart(course_index):
     # check if employment data is available for the user-selected course info
@@ -68,7 +67,6 @@ def generate_pie_chart(course_index):
         return fig
     else:
         return 'error'
-#generate_pie_chart(course_index)
 
 def generate_satisfaction_indicators(course_index):
     # check if satisfaction data is available for the user-selected course info 
