@@ -142,7 +142,7 @@ def test_course_selection_error_message(dash_duo):
 
     # Check that an error message is displayed to inform the user of unavailable data
     error_message_after=dash_duo.find_element('#errors > div')
-    assert error_message_after.text=='Sorry, no data is currently available for the selected course options. We will try our best to add it to our database soon! Please select a different study mode, kis level or course name.'
+    assert error_message_after.text=="Oh no!\nNo data is currently available for the selected course options. We will try our best to add it to our database soon! Please select a different study mode, kis level or course name.'
 
 def test_countries_selection_error(dash_duo):
     """
@@ -173,4 +173,4 @@ def test_countries_selection_error(dash_duo):
 
     # Check that an error message is displayed to ask the user to select at least one country
     error_message_after=dash_duo.find_element('#no_countries_selected_error > div')
-    assert error_message_after.text=='WARNING!No country was selected. Please make sure to select at least one to visualise salary data.'
+    assert error_message_after.text=="WARNING!\nNo country was selected. Please make sure to select at least one to visualise salary data."
