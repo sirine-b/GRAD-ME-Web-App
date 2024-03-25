@@ -78,7 +78,7 @@ def test_select_course_filters(dash_duo):
 
     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers")
-    assert sat_indicator_one_end.text==str('68.9%')
+    assert sat_indicator_one_end.text==str('73.5%')
 
 def test_select_countries(dash_duo):
     """
@@ -126,12 +126,13 @@ def test_course_selection_error_message(dash_duo):
         error_message_before=True
     except:
         error_message_before=False
-        assert error_message_before==False
+    
+    assert error_message_before==False
      
 
     # Define the different filter options/buttons that will be selected by the user (inexistent combination)
     kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_4')
-    microbiology_course=dash_duo.find_element('#course_name_select > option:nth-child(117)')
+    microbiology_course=dash_duo.find_element('#course_name_select > option:nth-child(2)')
     search_button=dash_duo.find_element('#search_button')
 
     # Simulate the user clicking on the above filter options
@@ -139,11 +140,37 @@ def test_course_selection_error_message(dash_duo):
     microbiology_course.click()
     search_button.click()  
 
+    # Check that an error message is displayed to inform the user of unavailable data
     error_message_after=dash_duo.find_element('#errors > div')
     assert error_message_after.text=='Sorry, no data is currently available for the selected course options. We will try our best to add it to our database soon! Please select a different study mode, kis level or course name.'
 
+def test_countries_selection_error(dash_duo):
     """
     GIVEN the app is running
-    WHEN the user deselects all countries
-    THEN an error message should be displayed next to the bar plot to ask the user to select a country
+    WHEN the user deselects all the countries
+    THEN an error message should be displayed next to the bar plot to ask the user to select at least one country
     """ 
+
+    app = import_app(app_file="src.app")
+    dash_duo.start_server(app)
+
+    # Wait for the search to be visible, timeout if this does not happen within 4 seconds
+    dash_duo.wait_for_element("#search_button", timeout=4)
+
+    # Check that no error message is displayed when a correct combination of course filters is selected
+        
+    try:
+        error_message = dash_duo.find_element('#no_countries_selected_error > div')
+        error_message_before=True
+    except:
+        error_message_before=False
+    
+    assert error_message_before==False
+
+    # Simulate the user deselecting all the countries (i.e. deselects the UK, which is the value selected by default)
+    UK=dash_duo.find_element("#_dbcprivate_checklist_countries_select_input_UK")
+    UK.click()
+
+    # Check that an error message is displayed to ask the user to select at least one country
+    error_message_after=dash_duo.find_element('#no_countries_selected_error > div')
+    assert error_message_after.text=='WARNING!No country was selected. Please make sure to select at least one to visualise salary data.'

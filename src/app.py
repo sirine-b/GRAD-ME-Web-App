@@ -46,10 +46,14 @@ def update_pie_chart(input1,input2,input3):
     course_index=find_course_index(input2,input3)
     pie_chart=generate_pie_chart(course_index)
     if pie_chart=='error':
-        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
-                        We will try our best to add it to our database soon!\
-                        Please select a different study mode, kis level or course name.",
-                        color=px.colors.sequential.Burgyl[5],)
+        error = dbc.Alert([
+            html.H4(html.Strong("Oh no!")),
+            html.P("No data is currently available for the selected course options.\
+                    We will try our best to add it to our database soon!\
+                    Please select a different study mode, kis level or course name.")],
+            color=px.colors.sequential.Burgyl[5],
+            dismissable=True,
+            fade=True)
         return no_update,error
     else:
         error=''
@@ -70,10 +74,14 @@ def update_satisfaction_indicators(input1,input2,input3):
     course_index=find_course_index(input2,input3)
     satisfaction_indicators=generate_satisfaction_indicators(course_index)
     if satisfaction_indicators=='error':
-        error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
-                        We will try our best to add it to our database soon!\
-                        Please select a different study mode, kis level or course name.",
-                        color=px.colors.sequential.Burgyl[5],)
+        error = dbc.Alert([
+            html.H4(html.Strong("Oh no!")),
+            html.P("No data is currently available for the selected course options.\
+                    We will try our best to add it to our database soon!\
+                    Please select a different study mode, kis level or course name.")],
+            color=px.colors.sequential.Burgyl[5],
+            dismissable=True,
+            fade=True)
         return no_update,error
     else:
         error=''
@@ -100,17 +108,23 @@ def update_bar_chart(input1,input2,input3,input4,input5,input6):
     course_index=find_course_index(input3,input4)
     bar_chart=generate_bar_chart(course_index,input5,input6)
     if bar_chart=='no_countries_selected_error':
-        error_countries = dbc.Alert("WARNING! No country was selected. Please make sure to select\
-                                     at least one to visualise salary data.",
-                        color=px.colors.sequential.Burgyl[2],)
+        error_countries = dbc.Alert([
+                            html.H2(html.Strong("WARNING!")),
+                            html.P("No country was selected. Please make sure to select\
+                                     at least one to visualise salary data.")],
+                                     color=px.colors.sequential.Burgyl[2],)
         return no_update,no_update, error_countries
     else:
         error_countries=''
         if bar_chart=='error':
-            error = dbc.Alert("Sorry, no data is currently available for the selected course options.\
-                            We will try our best to add it to our database soon!\
-                            Please select a different study mode, kis level or course name.",
-                            color=px.colors.sequential.Burgyl[5],)
+            error = dbc.Alert([
+                html.H4(html.Strong("Oh no!")),
+                html.P("No data is currently available for the selected course options.\
+                        We will try our best to add it to our database soon!\
+                        Please select a different study mode, kis level or course name.")],
+                color=px.colors.sequential.Burgyl[5],
+                dismissable=True,
+                fade=True)
             return no_update,error, error_countries
         else:
             error=''

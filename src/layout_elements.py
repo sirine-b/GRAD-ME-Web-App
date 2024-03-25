@@ -7,7 +7,7 @@ import plotly.express as px
 
 
 from src.figures import *
-#from app import*
+
 
 course_index=find_course_index('design studies',1)
 pie_chart=generate_pie_chart(course_index)
