@@ -186,11 +186,11 @@ def test_info_tooltip(dash_duo):
     # info_tooltip=dash_duo.find_element("info_tooltip")
 
     # switch to the iframe
-    iframe = dash_duo.find_element_by_tag_name('iframe')
+    iframe = dash_duo.find_element(By.TAG_NAME,'iframe')
     dash_duo.switch_to.frame(iframe)
 
     # close the tooltip
-    dash_duo.find_element_by_css_selector('#info_tooltip > .close').click()
+    dash_duo.find_element('#info_tooltip > .close').click()
 
     # switch back
     dash_duo.switch_to.default_content()
