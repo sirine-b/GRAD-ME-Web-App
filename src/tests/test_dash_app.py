@@ -67,7 +67,7 @@ def test_select_course_filters(dash_duo):
     assert sat_indicator_one_start.text==str('60.2%')
 
     # Define the different filter options/buttons that will be selected by the user
-    kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
+    kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_4')
     course_software_eng=dash_duo.find_element('#course_name_select > option:nth-child(11)')
     search_button=dash_duo.find_element('#search_button')
 
@@ -78,7 +78,7 @@ def test_select_course_filters(dash_duo):
 
     # Check that the correct value of the first satisfaction indicator is displayed after the new filter options have been selected
     sat_indicator_one_end=dash_duo.find_element("#satisfaction_indicators > div.js-plotly-plot > div > div > svg:nth-child(3) > g.indicatorlayer > g:nth-child(1) > g.numbers")
-    assert sat_indicator_one_end.text==str('73.5%')
+    assert sat_indicator_one_end.text==str('68.9%')
 
 def test_select_countries(dash_duo):
     """
@@ -110,7 +110,7 @@ def test_select_countries(dash_duo):
 def test_course_selection_error_message(dash_duo):
     """
     GIVEN the app is running
-    WHEN the user selects a combination of course options for which no data is available (e.g. )
+    WHEN the user selects a combination of course options for which no data is available (e.g. Microbiology and cell studies + Full Time + Kis Level 4 )
     THEN an error message should be displayed on the top right of web app
     """
     app = import_app(app_file="src.app")
@@ -130,7 +130,7 @@ def test_course_selection_error_message(dash_duo):
      
 
     # Define the different filter options/buttons that will be selected by the user (inexistent combination)
-    kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_3')
+    kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_4')
     microbiology_course=dash_duo.find_element('#course_name_select > option:nth-child(117)')
     search_button=dash_duo.find_element('#search_button')
 
