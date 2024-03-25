@@ -182,25 +182,15 @@ def test_info_tooltip(dash_duo):
     THEN a text with some additional information regarding kis_level is displayed
     """ 
 
-    # # Find the help tooltip on web page
-    # info_tooltip=dash_duo.find_element("info_tooltip")
+    # Find the help tooltip on web page
+    info_tooltip=dash_duo.find_element("img")
 
-    # switch to the iframe
-    iframe = dash_duo.find_element(By.TAG_NAME,'iframe')
-    dash_duo.switch_to.frame(iframe)
 
-    # close the tooltip
-    dash_duo.find_element('#info_tooltip > .close').click()
+    # Simulate a user hovering with their mouse on the tooltip
+    ActionChains(dash_duo.driver).move_to_element(info_tooltip).perform()
 
-    # switch back
-    dash_duo.switch_to.default_content()
-
-    # # Simulate a user hovering with their mouse on the tooltip
-    # ActionChains(dash_duo.driver).move_to_element(help_tooltip).perform()
-
-    # # Extract/Read the tooltip text
-    # element=dash_duo.find_element(By.XPATH,"//*[@id='info_tooltip']")
-    # help_tooltip_text=element.text()
+    # Extract/Read the tooltip text
+    #help_tooltip_text=element.text()
 
     # assert help_tooltip_text=="Not sure what your course's kis level is?\
     #                         You can most likely find it on your course page\
