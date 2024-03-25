@@ -181,10 +181,8 @@ def test_info_tooltip(dash_duo):
     WHEN the user hovers over the info tooltip
     THEN a text with some additional information regarding kis_level is displayed
     """ 
-    X_path="/html/body/div/div/div/div[3]/div[1]/div/div/div[2]/div/div[3]/img"
-
     # Find the help tooltip on web page
-    info_tooltip=dash_duo.find_element(By.XPATH,X_path)
+    info_tooltip=dash_duo.find_element(By.XPATH, "//*[@aria-describedby = 'tooltip_text']")
 
     # Simulate a user hovering with their mouse on the tooltip
     ActionChains(dash_duo.driver).move_to_element(info_tooltip).perform()
