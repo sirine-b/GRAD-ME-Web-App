@@ -130,7 +130,25 @@ def update_bar_chart(input1,input2,input3,input4,input5,input6):
             error=''
             return bar_chart,error,error_countries
 
-
+app.clientside_callback(
+    """function (id) {
+        var myID = document.getElementById(id)
+    
+        var myScrollFunc = function() {
+          var y = window.scrollY;
+          if (y >= 400) {
+            myID.style.display = ""
+          } else {
+            myID.style.display = "none"
+          }
+        };
+        
+        window.addEventListener("scroll", myScrollFunc);
+        return window.dash_clientside.no_update
+    }""",
+    Output('back_to_top', 'id'),
+    Input('back_to_top', 'id')
+)
 # Run the Dash app
 if __name__ == '__main__':
     app.run(debug=True)

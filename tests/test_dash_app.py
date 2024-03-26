@@ -191,3 +191,13 @@ def test_info_tooltip(dash_duo):
     # assert help_tooltip_text=="Not sure what your course's kis level is?\
     #                         You can most likely find it on your course page\
     #                         through your university's website."
+
+    def test_back_to_top_button(dash_duo):
+        height_start=dash_duo.execute_script('return window.pageYOffset;')
+        assert height_start==0
+        dash_duo.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+        
+        # scroll down webpage
+        # check that pageYOffset !=0
+        # click on back_to_top_button
+        # check that pageYOffset ==0

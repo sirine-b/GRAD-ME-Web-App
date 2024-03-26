@@ -4,6 +4,7 @@ import pandas as pd
 import sqlite3
 import json
 import plotly.express as px
+import dash_mantine_components as dmc
 
 
 from src.figures import *
@@ -49,7 +50,7 @@ row_one = html.Div(
                  ],width=8),
         dbc.Col([html.Div(
             id="errors")])
-    ]),
+            ])
 )
 
 row_two = html.Div(
@@ -90,7 +91,6 @@ row_two = html.Div(
                 style={'font-size': '15px', 'width': '140px', 'display': 'inline-block', 
                       'margin-bottom': '50px', 'margin-top': '30px', 'margin-right': '5px', 
                       'height':'25px'})
-                      #className="d-grid gap-2 d-md-flex justify-content-md-end")
                       
     ]),
     #set space between this row and the previous one
@@ -100,10 +100,11 @@ row_two = html.Div(
 row_three = html.Div(
     dbc.Row([
         dbc.Col(dcc.Graph(id="pie_chart",figure=pie_chart)),
-        dbc.Col(dcc.Graph(id="satisfaction_indicators",figure=satisfaction_indicators))
-                 ]),
-        style={'height':'385px'}
-)
+        dbc.Col(dcc.Graph(id="satisfaction_indicators",figure=satisfaction_indicators)),
+        dbc.Col(dcc.Link(dmc.Affix(dbc.Button("Back to top"),position={"bottom": 50, "right": 150}),
+                          id='back_to_top', href="#app_header"),width=1)
+                          ]),
+                          style={'height':'385px'})
 
 row_four = html.Div(
     dbc.Row([

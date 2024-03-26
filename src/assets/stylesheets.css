@@ -18,3 +18,4 @@
   .bs-tooltip-start .tooltip-arrow::before,
   .bs-tooltip-auto[data-popper-placement^=left] .tooltip-arrow::before {
       border-left-color: rgb(238, 97, 121);
+  }
