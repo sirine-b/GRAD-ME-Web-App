@@ -182,10 +182,8 @@ def test_info_tooltip(dash_duo):
     THEN a text with some additional information regarding kis_level is displayed
     """ 
     # Find the help tooltip on web page
-    info_tooltip=dash_duo.find_element('#pic')
-
-    # Simulate a user hovering with their mouse on the tooltip
-    ActionChains(dash_duo.driver).move_to_element(info_tooltip).perform()
+    header=dash_duo.find_element(By.ID,"app_header")
+    tool_tip=dash_duo.find_element(By.ID,'pic')
 
     # # Extract/Read the tooltip text
     # help_tooltip_text=info_tooltip.text()
