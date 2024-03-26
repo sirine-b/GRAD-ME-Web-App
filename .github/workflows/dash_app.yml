@@ -31,7 +31,7 @@ jobs:
         pip install -r requirements.txt
         pip install -e .
         pip install selenium pytest
-    - name: Lint with pylint
+    - name: Lint with Flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
@@ -40,3 +40,11 @@ jobs:
     - name: Run tests
       run: |
         python -m pytest
+     
+    - name: Run code coverage
+      #uses: codecov/codecov-action@v1
+      run: |
+        coverage run -m pytest  tests/test_dash_app.py
+        coverage report -m
+      
+      
