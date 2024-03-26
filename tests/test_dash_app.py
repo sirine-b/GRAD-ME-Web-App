@@ -132,12 +132,12 @@ def test_course_selection_error_message(dash_duo):
 
     # Define the different filter options/buttons that will be selected by the user (inexistent combination)
     kis_level_four=dash_duo.find_element('#_dbcprivate_radioitems_kis_level_select_input_4')
-    microbiology_course=dash_duo.find_element('#course_name_select > option:nth-child(2)')
+    design_studies_course=dash_duo.find_element('#course_name_select > option:nth-child(2)')
     search_button=dash_duo.find_element('#search_button')
 
     # Simulate the user clicking on the above filter options
     kis_level_four.click()
-    microbiology_course.click()
+    design_studies_course.click()
     search_button.click()  
 
     # Check that an error message is displayed to inform the user of unavailable data
@@ -175,27 +175,21 @@ def test_countries_selection_error(dash_duo):
     error_message_after=dash_duo.find_element('#no_countries_selected_error > div')
     assert error_message_after.text=="WARNING!\nNo country was selected. Please make sure to select at least one to visualise salary data."
 
-# def test_info_tooltip(dash_duo):
-#     """
-#     GIVEN the app is running
-#     WHEN the user hovers over the info tooltip
-#     THEN a text with some additional information regarding kis_level is displayed
-#     """ 
-#     # # Find the help tooltip on web page
-#     # info_tooltip=dash_duo.find_element(By.XPATH, "//*[@aria-describedby = 'tooltip_text']")
+def test_info_tooltip(dash_duo):
+    """
+    GIVEN the app is running
+    WHEN the user hovers over the info tooltip
+    THEN a text with some additional information regarding kis_level is displayed
+    """ 
+    # Find the help tooltip on web page
+    info_tooltip=dash_duo.find_element('#info_tooltip > img')
 
-#     # # Simulate a user hovering with their mouse on the tooltip
-#     # ActionChains(dash_duo.driver).move_to_element(info_tooltip).perform()
+    # Simulate a user hovering with their mouse on the tooltip
+    ActionChains(dash_duo.driver).move_to_element(info_tooltip).perform()
 
-#     # # Extract/Read the tooltip text
-#     # help_tooltip_text=info_tooltip.text()
+    # # Extract/Read the tooltip text
+    # help_tooltip_text=info_tooltip.text()
 
-#     # assert help_tooltip_text=="Not sure what your course's kis level is?\
-#     #                         You can most likely find it on your course page\
-#     #                         through your university's website."
-#     dash_duo.maximize_window()
-#     toolTip = WebDriverWait(dash_duo, 10).until(EC.presence_of_element_located((By.XPATH, "//div[starts-with(text(),'Reviewer Source')]/div[contains(@class,'IconWrapper')][1]")))
-#     hov = ActionChains(dash_duo).move_to_element(toolTip)
-#     txt = hov.perform()
-#     tooltipText = WebDriverWait(dash_duo, 10).until(EC.presence_of_element_located((By.XPATH, "//div[@class='tippy-content']"))).text
-#     print(tooltipText)
+    # assert help_tooltip_text=="Not sure what your course's kis level is?\
+    #                         You can most likely find it on your course page\
+    #                         through your university's website."
