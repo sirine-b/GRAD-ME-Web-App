@@ -196,7 +196,7 @@ def test_back_to_top_button(dash_duo):
     element=dash_duo.find_element("#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1)")
     height_one=element.location['y']
     element2=dash_duo.find_element("#countries_select > div:nth-child(5) > label")
-    element2.click
+    element2.click()
     height_two=element.location['y']
     top_button=dash_duo.find_element("body > div:nth-child(4) > div > div > button")
     top_button.click()
