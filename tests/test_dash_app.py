@@ -55,7 +55,7 @@ def test_select_course_filters(dash_duo):
     GIVEN the app is running
     THEN the value of the first satisfaction indicator should be 60.2% for the default filter values (i.e. Design Studies + Full-Time + Kis mode 3)
     WHEN the user selects new filter options (e.g. Software Engineering + Full-Time + Kis mode 4)
-    THEN the value of the first satisfaction indicator should be 68.9%
+    THEN the value of the first satisfaction indicator should be 73.5%
     """
     app = import_app(app_file="src.app")
     dash_duo.start_server(app)
@@ -99,8 +99,7 @@ def test_select_countries(dash_duo):
     assert countries_before.text == str('UK')
 
     # Define the different country options that will be selected by the user
-    wales_selector=dash_duo.find_element('#countries_select > div:nth-child(4) > label')
-    
+    wales_selector=dash_duo.find_element('#_dbcprivate_checklist_countries_select_input_Wales')
     # Simulate the user clicking on additional countries (i.e.Wales) on the multiselector filter
     wales_selector.click()
 
