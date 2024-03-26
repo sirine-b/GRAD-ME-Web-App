@@ -42,7 +42,6 @@ jobs:
         python -m pytest
      
     - name: Run code coverage
-      #uses: codecov/codecov-action@v1
       run: |
         coverage run -m pytest  tests/test_dash_app.py
         coverage report -m
