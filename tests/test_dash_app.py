@@ -193,9 +193,22 @@ def test_countries_selection_error(dash_duo):
 #     #                         through your university's website."
 
 def test_back_to_top_button(dash_duo):
-    height_start=dash_duo.execute_script('return window.pageYOffset;')
-    assert height_start==0
-    dash_duo.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+    element=dash_duo.find_element("#bar_chart > div.js-plotly-plot > div > div > svg:nth-child(1)")
+    height_one=element.location['y']
+    element2=dash_duo.find_element("#countries_select > div:nth-child(5) > label")
+    element2.click
+    height_two=element.location['y']
+    top_button=dash_duo.find_element("body > div:nth-child(4) > div > div > button")
+    top_button.click()
+    height_three=element.location['y']
+    assert height_three==height_one
+    assert height_two!=height_one
+
+
+
+
+    
+    # dash_duo.execute_script("window.scrollTo(0, document.body.scrollHeight);")
 
 #         # scroll down webpage
 #         # check that pageYOffset !=0
