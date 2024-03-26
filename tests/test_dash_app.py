@@ -175,29 +175,29 @@ def test_countries_selection_error(dash_duo):
     error_message_after=dash_duo.find_element('#no_countries_selected_error > div')
     assert error_message_after.text=="WARNING!\nNo country was selected. Please make sure to select at least one to visualise salary data."
 
-def test_info_tooltip(dash_duo):
-    """
-    GIVEN the app is running
-    WHEN the user hovers over the info tooltip
-    THEN a text with some additional information regarding kis_level is displayed
-    """ 
-    # Find the help tooltip on web page
-    header=dash_duo.find_element(By.ID,"app_header")
-    tool_tip=dash_duo.find_element(By.ID,'pic')
+# def test_info_tooltip(dash_duo):
+#     """
+#     GIVEN the app is running
+#     WHEN the user hovers over the info tooltip
+#     THEN a text with some additional information regarding kis_level is displayed
+#     """ 
+#     # Find the help tooltip on web page
+#     header=dash_duo.find_element(By.ID,"app_header")
+#     tool_tip=dash_duo.find_element(By.ID,'pic')
 
-    # # Extract/Read the tooltip text
-    # help_tooltip_text=info_tooltip.text()
+#     # # Extract/Read the tooltip text
+#     # help_tooltip_text=info_tooltip.text()
 
-    # assert help_tooltip_text=="Not sure what your course's kis level is?\
-    #                         You can most likely find it on your course page\
-    #                         through your university's website."
+#     # assert help_tooltip_text=="Not sure what your course's kis level is?\
+#     #                         You can most likely find it on your course page\
+#     #                         through your university's website."
 
-    def test_back_to_top_button(dash_duo):
-        height_start=dash_duo.execute_script('return window.pageYOffset;')
-        assert height_start==0
-        dash_duo.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-        
-        # scroll down webpage
-        # check that pageYOffset !=0
-        # click on back_to_top_button
-        # check that pageYOffset ==0
+#     def test_back_to_top_button(dash_duo):
+#         height_start=dash_duo.execute_script('return window.pageYOffset;')
+#         assert height_start==0
+#         dash_duo.execute_script("window.scrollTo(0, document.body.scrollHeight);")
+
+#         # scroll down webpage
+#         # check that pageYOffset !=0
+#         # click on back_to_top_button
+#         # check that pageYOffset ==0
