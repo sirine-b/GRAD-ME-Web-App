@@ -4,6 +4,7 @@ The GRAD:ME! web app is a dashboard built with Dash in order to enable its users
 
 This dashboard enables the students to selects their course, study mode (Full-Time or Part-Time), kis level (3 or 4) and their countries of interests within the UK and view data regarding the expected salaries, graduates' satisfaction rate and much more!
 
+
 ## INSTALLATION and EXECUTION
 ### 1. Clone repository
 Clone the repository to your virtual IDE
@@ -37,7 +38,7 @@ pip install -r requirements.txt
 pip install -e .
 ```
 
-### 3. Run the Application
+### 4. Run the Application
 - Run the application with the command:
 ```bash
 python src/app.py --debug
@@ -46,44 +47,47 @@ python src/app.py --debug
 
 - To stop the app, press : `CTRL+C`
 
+
 ## TESTING
 
 ### 1. Through GitHub Actions (Continuous Integration)
 All the tests were ran through Github actions as that is what worked best for me. To do so, simply:
 
-#### a. Make sure the dash_app.yml file exists within the .github/workflows folder
+  #### a. Check the dash_app.yml file exists within the .github/workflows folder
 
-#### b. Commit and sync any changes made locally onto your main branch on GitHub
+  #### b. Commit and sync any changes made locally onto your main branch on GitHub
 
-***Pycharm***:
-Go to VCS > Git > Commit File . Click on Commit File Button. Write your commit message and click on **Commit**
-Then, to push the changes onto GitHub: Go to VCS > Git > Push
-
-***VSCode***:
-Go to the Source Control (or Ctrl+Shift+G) tab. Write your commit message and click on **Commit** and then **Sync**
-
-#### c. Check latest workflow run to view test results and coverage report
-Go to your GitHub repository for this app. Click on the **Actions** tab at the top of the page. Open the last workflow run.
+  Pycharm:
+  - Go to VCS > Git > Commit File . Click on Commit File Button.
+  - Write your commit message and click on **Commit**.
+  - Then, to push the changes onto GitHub: Go to VCS > Git > Push
+  
+  VSCode:
+  - Go to the Source Control (or Ctrl+Shift+G) tab.
+  - Write your commit message and click on **Commit** and then **Sync**
+  
+  #### c. Check latest workflow run to view test results and coverage report
+  Go to your GitHub repository for this app. Click on the **Actions** tab at the top of the page. Open the last workflow run.
 
 
 ### 2. Locally
-However, if you would like to try to run the tests and obtain the coverage reports locally, you can follow these next steps:
-
-#### a. Running the Tests
-
-To run the tests, execute the following command:
-
-```bash
-pytest -v
-```
-#### b. Test Coverage
-
-Run the tests with coverage:
-
-```bash
-coverage run -m pytest tests/test_dash_app.py
-```
-Obtain the coverage report: 
+If you would like to, instead, try to run the tests and obtain the coverage reports locally, you can follow these next steps:
+  
+  #### a. Run the tests
+  
+  To run the tests, execute the following command:
+  
+  ```bash
+  pytest -v
+  ```
+  #### b. Test Coverage
+  
+  Run the tests with coverage:
+  
+  ```bash
+  coverage run -m pytest tests/test_dash_app.py
+  ```
+  Obtain the coverage report: 
 
 ```bash
 coverage report -m
