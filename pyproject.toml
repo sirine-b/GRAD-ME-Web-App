@@ -17,4 +17,4 @@ addopts = "-rA --verbose"
 
 [tool.coverage.run]
 branch = true
-source = ["src"]
+source = ["tests"]
