@@ -1,4 +1,4 @@
-# GRAD:ME Web App
+# GRAD:ME! Web App
 ## OVERVIEW
 The GRAD:ME! web app is a dashboard built with Dash in order to enable its users (final-year unversity students) to visualise data related to employment prospects for various courses and study modes.
 
